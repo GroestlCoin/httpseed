@@ -1,12 +1,12 @@
-Bitcoin Cartographer
+Groestlcoin Cartographer
 ====================
 
-Cartographer is a Bitcoin peer to peer network crawler and seed server.
+Cartographer is a Groestlcoin peer to peer network crawler and seed server.
 
-*[Download Cartographer](https://github.com/mikehearn/httpseed/releases)*
+*[Download Cartographer](https://github.com/Groestlcoin/httpseed/releases)*
 
-Like all peer to peer networks, Bitcoin requires hard coded starting points (sometimes called directories) that can be used to
-find some initial peers to connect to. Currently Bitcoin nodes and wallets use DNS lookups for this purpose. DNS is
+Like all peer to peer networks, Groestlcoin requires hard coded starting points (sometimes called directories) that can be used to
+find some initial peers to connect to. Currently Groestlcoin nodes and wallets use DNS lookups for this purpose. DNS is
 simple but increasingly inadequate for our needs:
 
 * It is unauthenticated so the procedure can be man-in-the-middle attacked. This doesn't matter much whilst the P2P
@@ -16,10 +16,10 @@ simple but increasingly inadequate for our needs:
 * It's hard to put additional parameters to the query, so in practice you cannot customise the list you get back.
 * Some platforms and languages don't expose low level DNS APIs and so cannot easily handle the multi-A record responses.
 * Setting one up requires complicated DNS changes that are easy to mess up.
-* When a host infected with malware also runs a Bitcoin node, automated anti-malware crawlers can misidentify DNS seeds
+* When a host infected with malware also runs a Groestlcoin node, automated anti-malware crawlers can misidentify DNS seeds
   as malicious command and control servers.
 
-This application is a Bitcoin P2P network crawler and server with the following features:
+This application is a Groestlcoin P2P network crawler and server with the following features:
 
 * Can serve seed data using gzipped, digitally signed protocol buffers over HTTP. This fixes authentication,
   auditability, malware false positives and extensibility. The signature uses secp256k1.
@@ -32,7 +32,7 @@ This application is a Bitcoin P2P network crawler and server with the following 
 * Exports statistics and controls using JMX, so you can reconfigure it at runtime and view charts of things like
   connects/sec or CPU usage using any JMX console, like Mission Control.
 
-There is support in bitcoinj git master (from 0.13 onwards) for using the protobuf based protocol.
+There is support in Groestlcoinj git master (from 0.13 onwards) for using the protobuf based protocol.
 
 The code is written in Kotlin (sort of like a smaller, simpler Scala), so it's concise and easy to hack. Despite the
 large number of features it comes to only about 670 lines of code.
@@ -40,7 +40,7 @@ large number of features it comes to only about 670 lines of code.
 Usage
 =====
 
-You will need a Java 7 runtime. Then [grab the JAR](https://github.com/mikehearn/httpseed/releases/) and use it like this:
+You will need a Java 7 runtime. Then [grab the JAR](https://github.com/Groestlcoin/httpseed/releases/) and use it like this:
 
 ```
 java -Xmx300m
@@ -48,7 +48,7 @@ java -Xmx300m
      --dir=/path/to/a/working/directory
      --net={test,main}
      --http-port=8080
-     --dns-hostname={main,test}.seed.example.com
+     --dnsname={main,test}.seed.example.com
      --dns-port=2053
      --hostname=example.com
      --log-to-console
@@ -62,7 +62,7 @@ Most flags are self explanatory. A few that aren't:
 * `--hostname`: This should be the hostname of the box that is running the crawler. It will be resolved and used to
   substitute for a localhost IP if one is found, to avoid problems with machines that report their hostname wrong.
   It will also be put into the version message sent by the crawler so people know who to contact if there's a problem.
-* `--dns-hostname` (optional): This is the name that the DNS server will respond to (via UDP only). It
+* `--dnsname` (optional): This is the name that the DNS server will respond to (via UDP only). It
   should be set to whatever hostname you have allocated for DNS if you have chosen to do so.
 * `--crawls-per-sec`: Max connects per second to do. If this is set too high then you might not be able to crawl
   the full network because you'll max out your CPU or bandwidth and you will end up with initial connections timing
